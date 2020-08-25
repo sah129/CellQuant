@@ -1,0 +1,27 @@
+#####################################################
+Examining image: A1A2_Git1_A1_Time60_001
+
+########################CELLS########################
+Number of cells detected on first pass: 1321
+Number of cells after noise removal: 149
+######################VACUOLES#######################
+here
+Number of vacuoles detected on first pass: 227
+Renumerating cell ids
+Reenumerating vacuoles
+
+#####################################################
+Examining image: bad
+
+########################CELLS########################
+Number of cells detected on first pass: 11
+Number of cells after noise removal: 1
+######################VACUOLES#######################
+here
+Error analyzing bad
+Error message: Error in thresh(img[, , cnum$cmac_channel], w = b, h = b, offset = 2 * : filter width 'w' and height 'h' must be larger than 1
+
+End of main
+Writing Bad Image File
+Writing Settings File
+

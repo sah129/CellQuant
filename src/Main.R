@@ -67,7 +67,8 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
     error = function(cond)
     {
       message(paste0("Error analyzing ", imageset[row,"filename"]))
-      #message(cond)
+      msg<- cond
+      message(paste0("Error message: ", cond))
       results[[row]] <- NULL
       unsuccessful <<- c(unsuccessful, imageset[[row,"filename"]])
     }

@@ -85,48 +85,55 @@ server <- function(input, output, session) {
   # help buttons
   observeEvent(input$inputdir_help, {
     showModal(modalDialog(
-      title = "modal title input",
-      "this is the help text for input",
+      title = "Input Folder",
+      "Folder containing .tif images to be processed.",
       easyClose = TRUE,
       footer = NULL
     ))
   })
   observeEvent(input$outputdir_help, {
     showModal(modalDialog(
-      title = "modal title output",
-      "this is the help text for output",
+      title = "Output Folder",
+      "Folder where resulting images and spreadsheets should be stored.",
       easyClose = TRUE,
       footer = NULL
     ))
   })
   observeEvent(input$inputchannels_help, {
     showModal(modalDialog(
-      title = "modal title channel",
-      "this is the help text for channel",
+      title = "Input Channels",
+      "Frame numbers for the different channels of the .tif file.  If there is no DIC channel, leave the field blank.",
       easyClose = TRUE,
       footer = NULL
     ))
   })
   observeEvent(input$cutoffvalue_help, {
     showModal(modalDialog(
-      title = "modal title cutoff",
-      "this is the help text for cutoff",
+      title = "Cell Area Cutoff",
+      HTML(paste0("This should be obtained in imageJ using the \"Measure\" tool.  See the ", a('Automated Quant Tutorial', href = "lolnotdone"), " for more details.")),
       easyClose = TRUE,
       footer = NULL
     ))
   })
   observeEvent(input$algchoose_help, {
     showModal(modalDialog(
-      title = "modal title algchoose",
-      "this is the help text for algchoose",
+      title = "PM Detection Algorithm",
+      HTML(paste0("If fluorescence is localized at the cell membrane, the GFP algorithm is most suitable.  Use the DIC algorithm only for images with high intracelluar fluorescence.  For a demonstration of both algorithms, use the ",
+      a("Pipeline Options Tool", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
+      " or watch the  ", 
+      a("Automated Quant Tutorial", href = "lolnotdone"),
+      " for a more in-depth explanation.")),
       easyClose = TRUE,
       footer = NULL
-    ))
+      ))
   })
   observeEvent(input$factorchoose_help, {
     showModal(modalDialog(
-      title = "modal title factorchoose",
-      "this is the help text for factorchoose",
+      title = "Brightness Level",
+      HTML(paste0("For most microscope images, the brightest level (5) is ideal for the GFP algorithm, while (2) is ideal for the DIC algorithm. However you should use the ",
+      a("Pipeline Options Tool", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
+      " to demonstrate both algorithms at all brightness settings. ",       
+      "See the ", a("Automated Quant Tutorial", href = "lolnotdone"), " for a more in-depth explanation.")),
       easyClose = TRUE,
       footer = NULL
     ))
@@ -190,8 +197,10 @@ server <- function(input, output, session) {
       })
        
        showModal(modalDialog(
-         title = "Pipeline Complete!",
-         "Some stuff",
+         title = "Your automated quantification is complete!",
+         HTML(paste0("Want to sort and graph your data?  Go to ",
+         a("https://odonnelllab.shinyapps.io/Pipeline-options-demo/", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
+         " and upload your spreadsheets.  But don't really do this because it's not finished yet.")),
          easyClose = TRUE,
          footer = NULL
        ))

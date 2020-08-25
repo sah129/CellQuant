@@ -12,7 +12,7 @@ find_vacuoles <- function(cell_info, img, channels, cnum)
   # Threshold with an adaptive window and an offset 2 std. dev. from the norm.
   # This is sufficient to pick up only the brightest spots while excluding 
   # haze. 
-  vmask = thresh(img[,,cmac_channel],w=b,h=b,offset = 2*sd(img[,,cnum$cmac_channel]))
+  vmask = thresh(img[,,cnum$cmac_channel],w=b,h=b,offset = 2*sd(img[,,cnum$cmac_channel]))
   
   # Removes minor protrosions that are often a result of overflow PM 
   # fluorescence.
