@@ -1,4 +1,3 @@
-source("src/functions.R")
 
 # Main Driver function.  
 # datasetpath: path to dataset, see io.R for file/directory structure
@@ -9,16 +8,11 @@ source("src/functions.R")
 # interactive:  set to manually prune results in GUI
 pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, dic_chan, alg, cutoff, outpath)
 {
-
-
   cnum = list(
     cmac_channel = as.numeric(cmac_chan),
     gfp_channel = as.numeric(gfp_chan),
-    dic_channel = as.numeric(dic_chan)
-    
-  )
+    dic_channel = as.numeric(dic_chan))
   
-
   fact <- switch(factor,
                  "1" = 1,
                  "2" = 2,
@@ -29,53 +23,32 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
   chan <- cnum$gfp_channel
   if(alg == "DIC")
     chan <- cnum$dic_channel
-  
-  
   unsuccessful = list()
-  
-  
   imageset <- read_in_imageset_files(datasetpath)
-  
   p_inc <- 1/(nrow(imageset)*5)
-  
-  
   results = list()
   for( row in 1:nrow(imageset))
   {
     out <- tryCatch(
-      {
-        
+    {
       
-    if(gui)
       progress$inc(p_inc, message = paste0(imageset[row,"filename"], " (", row, "/",nrow(imageset),")" ))
-    
-    channels <- read_in_channels(imageset[row,], datasetpath, cnum)
-    img_gray <- convert_to_grayscale(channels)
-   
-    if(gui)
+      channels <- read_in_channels(imageset[row,], datasetpath, cnum)
+      img_gray <- convert_to_grayscale(channels)
+      
       progress$inc(p_inc, detail = "Detecting cell membranes")
-    
-    membranes <- detect_membranes_new(img_gray, channels, fact, img_gray[,,chan], as.numeric(cutoff), cnum)
-    
-    if(gui)
+      membranes <- detect_membranes(img_gray, channels, fact, img_gray[,,chan], as.numeric(cutoff), cnum)
+      
       progress$inc(p_inc, detail = "Detecting vacuoles")
-    vacuoles <- find_vacuoles(membranes, img_gray, channels, cnum)
-    
-    if(gui)
+      vacuoles <- find_vacuoles(membranes, img_gray, channels, cnum)
+      
       progress$inc(p_inc, detail = "Filtering cells")
+      res <- exclude_and_bind(membranes, vacuoles)
     
-    
-    res <- exclude_and_bind(membranes, vacuoles)
-  
-    if(gui)
       progress$inc(p_inc, detail = "Finishing quant")
-    
-    final<-tidy_up(membranes,vacuoles,res)
- 
-    
-    tiff(filename = paste0(outpath,  "/", imageset[row, "filename"], "_image.tiff"))
-    
-    get_display_img(df = final$df,
+      final<-tidy_up(membranes,vacuoles,res)
+      tiff(filename = paste0(outpath,  "/", imageset[row, "filename"], "_image.tiff"))
+      get_display_img(df = final$df,
                     membranes = final$membranes, 
                     col_membranes = 'white', 
                     vacuoles = final$vacuoles, 
@@ -89,30 +62,28 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
     dev.off()
     
     write.csv(final$df, paste0(outpath, "/", imageset[row, "filename"], '_quant.csv'), row.names=FALSE)
-    results[[row]] <- list(df = final$df,
-                     
-                           filename = imageset[row, "filename"])
-                  
-    
-    
-    
-      },
+    results[[row]] <- list(df = final$df, filename = imageset[row, "filename"])
+    },
     error = function(cond)
     {
       message(paste0("Error analyzing ", imageset[row,"filename"]))
       #message(cond)
       results[[row]] <- NULL
       unsuccessful <<- c(unsuccessful, imageset[[row,"filename"]])
-      
-      
     }
     )
   }
   message("End of main")
 
-  
+  message("Writing Bad Image File")
   fileConn<-file(paste0(outpath, "/Bad Images.txt"))
   writeLines(unlist(unsuccessful), fileConn)
+  close(fileConn)
+  
+  settings <- c(paste0(alg, " Detection Algorithm"), paste0("Brightness Setting: ", factor), paste0("Brightness Factor: ", fact), paste0("Cell Area Cutoff: ", cutoff))
+  message("Writing Settings File")
+  fileConn<-file(paste0(outpath, "/Settings.txt"))
+  writeLines(settings, fileConn)
   close(fileConn)
   
   

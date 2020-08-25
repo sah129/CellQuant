@@ -1,15 +1,8 @@
 
-library(shiny)
-library(dplyr)
-library(stringr)
-library(gridExtra)
-library(shinyFiles)
-library(shinyjs)
-library(shinythemes)
-source('src/functions.R')
-source('src/Main.R')
+source("src/functions.R")
 
-options(shiny.maxRequestSize = 100*1024^2)
+
+#options(shiny.maxRequestSize = 100*1024^2)
 
 ui <- fluidPage( theme = shinytheme("slate"),
   shinyjs::useShinyjs(),

@@ -27,26 +27,6 @@ find_vacuoles <- function(cell_info, img, channels, cnum)
   return(res)
 }
 
-find_vacuoles_alt <- function(cell_info, img, channels)
-{
-  message("######################VACUOLES#######################")
-  
- 
-  
-  
-  vmask <- img[,,cmac_channel] > otsu(img[,,cmac_channel])
-  # Removes minor protrosions that are often a result of overflow PM 
-  # fluorescence.
-  vmask = opening(vmask, makeBrush(5,shape="disc"))
-  vmask = bwlabel(vmask)
-  
-  message(paste0("Number of vacuoles detected on first pass: ", format(length(table(vmask)), nsmall = 4)))
-  FV <- computeFeatures(vmask, ref= channels$ref_gfp, xname = "vac")
-  FV<-FV[,c("vac.a.b.mean", "vac.0.m.cx", "vac.0.m.cy", "vac.0.s.area")]
-  
-  res<-list(vacuoles = vmask, FV = FV)
-  return(res)
-}
 
 # Build the resultant data frame while examining and excluding candidate 
 # membranes and their associated vacuoles. Returns data frame, list of 

@@ -1,38 +1,4 @@
 
-# Function to sort batch of imagesets into an N x 4 array where N = # of files.
-# Array has structure [ [filename] [cmac image] [gfp image] [dic image] ]
-
-read_in_imageset_dir <- function(datapath)
-{
-  dirs <- list.dirs(path = datapath)
-  dirs <- dirs[-1]
-  
-  imagesets <- matrix(NA, length(dirs), 4)
-  colnames(imagesets) <- c("file", "cmac", "gfp", "dic")
-  
-  for(dir in seq_along(dirs))
-  {
-    imagesets[dir,"file"] = str_remove(dirs[dir], paste0(datapath, "/"))
-    
-    imagesets[dir, "cmac"] <- list.files(
-      path = file.path(dirs[dir]),
-      pattern='cmac.*?\\.tif',
-      ignore.case = TRUE)
-    
-    imagesets[dir, "gfp"] <- list.files(
-      path = file.path(dirs[dir]),
-      pattern='gfp.*?\\.tif',
-      ignore.case = TRUE)
-    
-    imagesets[dir, "dic"] <- list.files(
-      path = file.path(dirs[dir]),
-      pattern='dic.*?\\.tif',
-      ignore.case = TRUE)
-    
-  }
-  return(imagesets)
-}
-
  
 # Function to read in tiff files from a single directory.  Tifs must be 
 # formatted as CMAC-Frame1, GFP-Frame2.  This is the default output when
@@ -57,21 +23,6 @@ read_in_imageset_files <- function(datapath)
 
 # Function to read and store channels from image.   Also stores unaltered
 # pixel intensity matrices to reference when computing features later.
-read_in_channels_old <- function(imageset, datasetpath)
-{
-  message("#####################################################")
-  message(paste0("Examining image: ", imageset["filename"]))
- 
-
-  gfp = readImage(file.path(paste0(datasetpath, "/", imageset["filepath"])))[,,2]
-  cmac = readImage(file.path(paste0(datasetpath, "/", imageset["filepath"])))[,,1]
-  
-  ref_gfp = readImage(file.path(paste0(datasetpath, "/", imageset["filepath"])),  as.is = TRUE)[,,2]
-  ref_cmac = readImage(file.path(paste0(datasetpath, "/", imageset["filepath"])),  as.is = TRUE)[,,1]
-  
-  list(cmac = cmac, gfp = gfp, ref_cmac = ref_cmac, ref_gfp = ref_gfp)
-}
-
 read_in_channels <- function(imageset, datasetpath, cnum)
 {
   message("#####################################################")
