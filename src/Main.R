@@ -76,8 +76,8 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
   }
   message("End of main")
 
-  message("Writing Bad Image File")
-  fileConn<-file(paste0(outpath, "/Bad Images.txt"))
+  message("Writing Unquantified Images File")
+  fileConn<-file(paste0(outpath, "/Unquantified Images.txt"))
   writeLines(unlist(unsuccessful), fileConn)
   close(fileConn)
   
