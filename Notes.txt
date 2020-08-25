@@ -1,0 +1,30 @@
+
+
+IMAGEJ:
+
+For finding cutoff as an input param:
+
+Analyze->set scale.  Click to remove scale
+
+Analyze -> measure 
+
+
+Idea for GUI:
+
+Have them set cutoff and choose sample image.  Run the image for 4 or 5 different brightness levels, display all at once.  Let them pick which one looks best. 
+
+Do this for DIC and GFP
+
+
+
+Write bad files to txt file 
+
+-solve sd issue in vacuole method 
+For tutorial:
+
+Increasing the brightness on the GFP algorithm means you're more likely to pick up something you should.  For the DIC algoritm, increasing the brightness means you're more likely to pick up something you shouldn't.  For this reason, for the GFP algorith, if both 8 and 16 look good to you, choose 16.  For DIC, if both 2 and 4 look good to you, choose 2.  
+
+
+stop button
+
+log file 
