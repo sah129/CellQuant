@@ -92,6 +92,7 @@ get_final_vac_img <- function(vacs, res)
 
 get_display_img <- function(df,membranes, col_membranes, vacuoles, col_vacuoles, removed,closed_vacuoles, img, showRemoved, showMemLabels, showVacLabels)
 {
+  img <- channel(img, 'rgb')
   if(nrow(df)==0) # nothing detected
   {
     plot(img)

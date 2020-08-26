@@ -1,7 +1,5 @@
 library(EBImage)
-library(tidyr)
 library(shiny)
-library(dplyr)
 library(stringr)
 library(shinyFiles)
 library(shinyjs)

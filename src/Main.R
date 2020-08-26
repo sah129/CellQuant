@@ -43,7 +43,7 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
       vacuoles <- find_vacuoles(membranes, img_gray, channels, cnum)
       
       progress$inc(p_inc, detail = "Filtering cells")
-      res <- exclude_and_bind(membranes, vacuoles)
+      res <- exclude_and_bind(membranes, vacuoles, as.numeric(cutoff))
     
       progress$inc(p_inc, detail = "Finishing quant")
       final<-tidy_up(membranes,vacuoles,res)
@@ -78,8 +78,13 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
 
   message("Writing Unquantified Images File")
   fileConn<-file(paste0(outpath, "/Unquantified Images.txt"))
-  writeLines(unlist(unsuccessful), fileConn)
+  if(length(unsuccessful) > 0)
+    writeLines(unlist(unsuccessful), fileConn)
+  else
+    writeLines("No unquantified images.", fileConn)
   close(fileConn)
+  
+  
   
   settings <- c(paste0(alg, " Detection Algorithm"), paste0("Brightness Setting: ", factor), paste0("Brightness Factor: ", fact), paste0("Cell Area Cutoff: ", cutoff))
   message("Writing Settings File")
