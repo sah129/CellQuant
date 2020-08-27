@@ -47,7 +47,7 @@ function(input, output, session)
     observeEvent(input$cutoffvalue_help, {
     showModal(modalDialog(
     title = "Cell Area Cutoff",
-    HTML(paste0("This should be obtained in imageJ using the \"Measure\" tool.  See the ", a('Automated Quant Tutorial', href = "lolnotdone"), " for more details.")),
+    HTML(paste0("This should be obtained in imageJ using the \"Measure\" tool.  See the Automated Quant Tutorial for more details.")),
     easyClose = TRUE,
     footer = NULL
     ))
@@ -55,11 +55,7 @@ function(input, output, session)
     observeEvent(input$algchoose_help, {
     showModal(modalDialog(
     title = "PM Detection Algorithm",
-    HTML(paste0("If fluorescence is localized at the cell membrane, the GFP algorithm is most suitable.  Use the DIC algorithm only for images with high intracelluar fluorescence.  For a demonstration of both algorithms, use the ",
-              a("Pipeline Options Tool", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
-              " or watch the  ", 
-              a("Automated Quant Tutorial", href = "lolnotdone"),
-              " for a more in-depth explanation.")),
+    HTML(paste0("If fluorescence is localized at the cell membrane, the GFP algorithm is most suitable.  Use the DIC algorithm only for images with high intracelluar fluorescence.  For a demonstration of both algorithms, use the Pipeline Options Tool or watch the Automated Quant Tutorial for a more in-depth explanation.")),
     easyClose = TRUE,
     footer = NULL
     ))
@@ -67,10 +63,7 @@ function(input, output, session)
     observeEvent(input$factorchoose_help, {
     showModal(modalDialog(
     title = "Brightness Level",
-    HTML(paste0("For most microscope images, the brightest level (5) is ideal for the GFP algorithm, while (2) is ideal for the DIC algorithm. However you should use the ",
-              a("Pipeline Options Tool", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
-              " to demonstrate both algorithms at all brightness settings. ",       
-              "See the ", a("Automated Quant Tutorial", href = "lolnotdone"), " for a more in-depth explanation.")),
+    HTML(paste0("For most microscope images, the brightest level (5) is ideal for the GFP algorithm, while (2) is ideal for the DIC algorithm. However you should use the Pipeline Options Tool to demonstrate both algorithms at all brightness settings.  See the Automated Quant Tutorial for a more in-depth explanation.")),
     easyClose = TRUE,
     footer = NULL
     ))
@@ -132,8 +125,8 @@ function(input, output, session)
        showModal(modalDialog(
          title = "Automated quantification complete!",
          HTML(paste0("Want to sort and graph your data?  Go to ",
-                     a("https://odonnelllab.shinyapps.io/Pipeline-options-demo/", href = "https://odonnelllab.shinyapps.io/Pipeline-options-demo/"),
-                     " and upload your spreadsheets.  But don't really do this because it's not finished yet.")),
+                     a("https://odonnelllab.shinyapps.io/QuantSort/", href = "https://odonnelllab.shinyapps.io/QuantSort/"),
+                     " and upload your spreadsheets.")),
          easyClose = TRUE,
          footer = NULL
        ))
