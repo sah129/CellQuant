@@ -52,7 +52,7 @@ pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, di
                     membranes = final$membranes, 
                     col_membranes = 'white', 
                     vacuoles = final$vacuoles, 
-                    col_vacuoles ='yellow', 
+                    col_vacuoles ='blue', 
                     removed = membranes$removed,
                     closed_vacuoles = TRUE, 
                     img = channels$gfp, 

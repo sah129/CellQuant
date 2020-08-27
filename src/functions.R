@@ -4,6 +4,7 @@ library(stringr)
 library(shinyFiles)
 library(shinyjs)
 library(shinythemes)
+library(tidyr)
 
 source("src/cells.R")
 source("src/vacuoles.R")
