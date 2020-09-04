@@ -1,5 +1,4 @@
 library(EBImage)
-library(shiny)
 library(stringr)
 library(shinyFiles)
 library(shinyjs)
