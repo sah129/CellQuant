@@ -12,24 +12,6 @@ source('src/functions.R')
 datasetpath <- "Datasets/Sample Dataset"
 ```
 
-```{r}
-cnum = list(
-  cmac_channel = 1,
-  gfp_channel = 2,
-  dic_channel = 3)
-chan <- cnum$gfp_channel
-cutoff <- "100"
-fact <- 16
-```
-
-
-```{r}
-imageset <- read_in_imageset_files(datasetpath)
-channels <- read_in_channels(imageset[1,], datasetpath, cnum)
-img_gray <- convert_to_grayscale(channels)
-membranes <- detect_membranes_demo(img_gray, channels, fact, img_gray[,,chan], as.numeric(cutoff), cnum)
-
-```
 
 ```{r}
 detect_membranes_demo <-function(img, channels, factor, chan, cutoff, cnum)
@@ -64,6 +46,71 @@ detect_membranes_demo <-function(img, channels, factor, chan, cutoff, cnum)
 
 
 
+```{r}
+cnum = list(
+  cmac_channel = 1,
+  gfp_channel = 2,
+  dic_channel = 3)
+chan <- cnum$gfp_channel
+cutoff <- "100"
+fact <- 16
+```
+
+
+```{r}
+imageset <- read_in_imageset_files(datasetpath)
+channels <- read_in_channels(imageset[1,], datasetpath, cnum)
+img_gray <- convert_to_grayscale(channels)
+membranes <- detect_membranes_demo(img_gray, channels, fact, img_gray[,,chan], as.numeric(cutoff), cnum)
+vacuoles <- find_vacuoles(membranes, img_gray, channels, cnum)
+res <- exclude_and_bind_demo(membranes, vacuoles, as.numeric(cutoff))
+final<-tidy_up(membranes,vacuoles,res)
+
+```
+
+```{r}
+detect_membranes_demo <-function(img, channels, factor, chan, cutoff, cnum)
+{
+
+  steps <- list()
+ # chan <- normalize(chan)
+  g <- gblur(chan*factor, sigma = 2)
+  
+
+  
+  ct = thresh(g)
+  cm = bwlabel(ct)
+  fm <- computeFeatures.shape(cm)
+  noise <- which(fm[,"s.area"]< cutoff) # noise removal
+  
+  keep_noise <- which(fm[,"s.area"] >= cutoff )
+  cm_copy <- cm
+  
+  steps$g <- g
+  steps$ct <- ct
+  steps$noise <- rmObjects(cm_copy, keep_noise)
+  
+  
+  
+  membranes <- rmObjects(cm, noise)
+  res <- remove_edge_membranes(membranes, img, channels, cnum)
+  
+  list(removed = res$removed, membranes = res$membranes, FM = res$FM, steps = steps)
+}
+```
+
+```{r}
+schan <- abind(channel(normalize(channels$cmac), 'asblue'), 
+               channel(normalize(channels$gfp), 'asgreen'), 
+               channel(channels$dic, 'rgb'), along = 1)
+sig <- abind(channel(img_gray[,,cnum$cmac_channel], 'rgb'), 
+             channel(img_gray[,,cnum$gfp_channel], 'rgb'), 
+             channel(img_gray[,,cnum$dic_channel], 'rgb'), along= 1)
+step1 <- abind(schan, sig, along = 2)
+```
+
+
+
 
 # Preprocessing
 
@@ -81,23 +128,136 @@ A channel object is created for each image using the user-supplied channel numbe
 All normalized channels are then converted to grayscale.  
 
 
+
 # Membrane Detection
 
 A first pass membrane detection is then initiated on the user-supplied channel.  The channel is brightened by a user-supplied factor and blurred using a sigma value of 2 (look this up). A simple threshold is performed and noise is removed using the user-supplied area cutoff.  Any remaining membrane object that intersects with the boundaries of the image is then removed.  The remaining membrane objects constitute the first pass cell membranes set.  A number of features are computed on this set using the reference channel image, including mean pixel intensity, minimum cell radius, x-y coordinates, and area.
 
+# Vacuoles
+
+We use adaptive thresholding on the CMAC channel for first-pass vacuole detection.  The bounding box for the adaptive threshold is based on the minimum radii of the computed membrane objects.  
+
+```{r}
+display(channel(vacuoles$vacuoles, 'asblue'))
+```
+
+
+```{r}
+msteps <- membranes$steps
+
+sct <- channel(msteps$ct, 'rgb')
+snoise <- paintObjects(msteps$noise, tgt = sct, col = c('red','red'))
+sedge <- paintObjects(membranes$removed, tgt=snoise, col = c('blue','blue'))
+
+smems <- abind(sct, sedge, channel(membranes$membranes, 'rgb'), along = 1)
+```
+
+
+```{r}
+exclude_and_bind_demo <- function(mems, vacs, cutoff)
+{
+
+  df <- data.frame(matrix(NA, nrow = length(table(mems$membranes)), ncol = 9))
+  names(df) <- c('CellID', 'vacuoles', 'cell_area', 'vac_area', 'PM_vac_ratio', 'cell_mpi', 'vac_mpi', 'pm_center_x', 'pm_center_y')
+  
+  
+  l = length(table(mems$membranes))-1
+  empty_cells <- vector("list", l) # cells containing no detected vacuoles
+  fragments <- vector("list", l) # PMs that not fully formed
+  intra_cell <- vector('list', l)
+  
+  # Loop through list of PMs
+  for(i in seq(1:l))
+  {
+    pm_seg = mems$membranes == i  # isolate PM
+    filled_seg = fillHull(pm_seg) # flood fill
+    comp <- pm_seg == filled_seg
+    
+  
+    if(any(pm_seg*vacs$vacuoles) == 1)  # excludes accidentally intra cell fluorescence
+    {
+      fragments[i] = i   
+      intra_cell[i] = i
+    }
+    # If # of pixels in PM is greater than intersection complement, add to 
+    # fragment list.  This technique allows whole PMS with some 
+    # minor gaps in fluorescence to make the cut. 
+   
+    else if(length(comp == FALSE) < 10)  # 10 pixel grace zone
+      fragments[i] = i
+    else  
+    {
+      # If not a fragment, search detected vacuoles within the cell. 
+      v_seg <-vacs$vacuoles*(filled_seg-pm_seg)
+      vcount <- table(v_seg)
+      vcount <- vcount[-1] 
+      # If no vacuoles detected, discard
+      if( length(vcount) == 0 )
+        empty_cells[i] = i
+      else
+      {
+        c_area <-  mems$FM[i, 'membrane.0.s.area']
+        v_area <- calc_vac_areas(as.numeric(names(vcount)), vacs$FV)
+      
+        if(v_area < (cutoff/10))
+        {
+          empty_cells[i] = i
+        }
+        else  # populate dataframe
+        {
+          cmpi <- mems$FM[i, 'membrane.a.b.mean']
+          vmpi <- calc_vac_mpi(as.numeric(names(vcount)), vacs$FV)
+          df[i,] <- list(CellID = i,
+                         vacuoles = toString(names(vcount)),
+                         cell_area =  c_area,
+                         vac_area = v_area,
+                         PM_vac_ratio = cmpi/vmpi,
+                         cell_mpi = cmpi,
+                         vac_mpi = vmpi,
+                         pm_center_x = mems$FM[i,'membrane.0.m.cx'],
+                         pm_center_y = mems$FM[i,'membrane.0.m.cy'])
+        }
+        
+      }
+    }
+  }
+  
+  message(paste0(length(unlist(empty_cells))), " empty cells discarded.")
+  message(paste0(length(unlist(fragments))), " membrane fragments discarded.")
+  
+  list(df=df, fragments = unlist(fragments), empty_cells = unlist(empty_cells), intra = unlist(intra_cell))
+}
+```
 
 
 
+```{r}
+mems <- membranes$membranes
+notfrags <- rmObjects(mems, res$fragments, reenumerate = FALSE)
+frags <- rmObjects(mems, notfrags)
+
+notintra <- rmObjects(mems, res$intra, reenumerate = FALSE)
+intra <- rmObjects(mems, notintra)
+
+notempty<- rmObjects(mems, res$empty_cells, reenumerate = FALSE)
+empty <- rmObjects(mems, notempty)
+```
 
 
 
+```{r}
+#svac <- paintObjects(vacuoles$vacuoles, channel(channels$cmac, 'rgb'), col = c('blue','blue'))
+
+sintra <- paintObjects(intra, tgt = channel(membranes$membranes, 'rgb'), col = c('red','red'))
+sempty <- paintObjects(empty, tgt = sintra, col = c('red','red'))
+
+sfinal <- paintObjects(final$vacuoles, tgt = channel(final$membranes, 'rgb'), col = c('blue','blue'))
+```
 
 
-
-
-
-
-
+```{r}
+sres <- abind(channel(vacuoles$vacuoles, 'asblue'), sempty, channel(final$membranes, 'rgb'), sfinal, along = 1)
+```
 
 
 
