@@ -1,0 +1,105 @@
+---
+title: "Paper"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source('src/functions.R')
+```
+
+```{r}
+datasetpath <- "Datasets/Sample Dataset"
+```
+
+```{r}
+cnum = list(
+  cmac_channel = 1,
+  gfp_channel = 2,
+  dic_channel = 3)
+chan <- cnum$gfp_channel
+cutoff <- "100"
+fact <- 16
+```
+
+
+```{r}
+imageset <- read_in_imageset_files(datasetpath)
+channels <- read_in_channels(imageset[1,], datasetpath, cnum)
+img_gray <- convert_to_grayscale(channels)
+membranes <- detect_membranes_demo(img_gray, channels, fact, img_gray[,,chan], as.numeric(cutoff), cnum)
+
+```
+
+```{r}
+detect_membranes_demo <-function(img, channels, factor, chan, cutoff, cnum)
+{
+
+  steps <- list()
+ # chan <- normalize(chan)
+  g <- gblur(chan*factor, sigma = 2)
+  
+
+  
+  ct = thresh(g)
+  cm = bwlabel(ct)
+  fm <- computeFeatures.shape(cm)
+  noise <- which(fm[,"s.area"]< cutoff) # noise removal
+  
+  keep_noise <- which(fm[,"s.area"] >= cutoff )
+  cm_copy <- cm
+  
+  steps$g <- g
+  steps$ct <- ct
+  steps$noise <- rmObjects(cm_copy, keep_noise)
+  
+  
+  
+  membranes <- rmObjects(cm, noise)
+  res <- remove_edge_membranes(membranes, img, channels, cnum)
+  
+  list(removed = res$removed, membranes = res$membranes, FM = res$FM, steps = steps)
+}
+```
+
+
+
+
+# Preprocessing
+
+## Format conversion
+The files are converted from .nd2 files to .tif files using FIJI's built-in Batch Convert macro.
+
+## I/O
+
+The .tif files are read in and stored in an N x 2 matrix with the structure [[filename] [filepath]] (latex this).  N = number of files.  Each row in this matrix is then sent through the pipeline one by one.
+
+## Image Preprocessing
+
+A channel object is created for each image using the user-supplied channel numbers.  For each frame (channel) of the .tif file, two child objects are created:  an image object with the original pixel intensities, used to quantification, and a normalized image used for image manipulation and rendering.
+
+All normalized channels are then converted to grayscale.  
+
+
+# Membrane Detection
+
+A first pass membrane detection is then initiated on the user-supplied channel.  The channel is brightened by a user-supplied factor and blurred using a sigma value of 2 (look this up). A simple threshold is performed and noise is removed using the user-supplied area cutoff.  Any remaining membrane object that intersects with the boundaries of the image is then removed.  The remaining membrane objects constitute the first pass cell membranes set.  A number of features are computed on this set using the reference channel image, including mean pixel intensity, minimum cell radius, x-y coordinates, and area.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
