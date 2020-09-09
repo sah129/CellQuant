@@ -1,6 +1,7 @@
 # CellQuant
 
-![CellQuant Opening Screen](assets/images/cq-open-screen.png) ![Auto-generated result graph](assets/images/qs-generate-graph.png)
+![CellQuant Opening Screen](assets/images/small/cq-open-screen.png) ![Auto-generated result graph](assets/images/small/qs-generate-graph.png)
+
 ## Overview
 
 CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to batch quantify plasma membrane and vacuolar fluorescence in yeast cells.  
@@ -14,7 +15,18 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to b
 
 ## How to Run
 
+### Without R Installation
+
 The easiest way to run the CellQuant program is to download the zip file of the [latest release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha). This comes with an R-portable so no previous installation of R is required.  [Google Chrome Portable](https://portableapps.com/apps/internet/google_chrome_portable) is used for rendering.  
+
+### With R Installation
+
+If you have R installed on your machine:  
+
+1.  Clone this repository locally
+2.  cd into the CellQuant directory
+3.  start R
+4.  run.R
 
 ## Dependencies
 
