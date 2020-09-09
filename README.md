@@ -35,7 +35,8 @@ If you have R installed on your machine:
 * R 3.6.3 or higher
 
 * Package dependences:  
-```Bioconductor::EBImage
+```
+Bioconductor::EBImage
 stringr
 shiny
 shinyFiles
