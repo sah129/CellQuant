@@ -1,10 +1,10 @@
 # CellQuant
 
-![CellQuant Opening Screen](assets/images/small/cq-open-screen.png) ![Auto-generated result graph](assets/images/small/qs-generate-graph.png)
+![CellQuant Start Screen and Sample Graph](assets/images/original/side-by-side.png) 
 
 ## Overview
 
-CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to batch quantify plasma membrane and vacuolar fluorescence in yeast cells.  
+CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to quantify plasma membrane and vacuolar fluorescence in yeast cells.  
 
 ## Features
 
@@ -32,7 +32,7 @@ If you have R installed on your machine:
 
 * Windows 7 or greater
 
-An installation of R is not required to run this program from the [prepackaged release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha).  If running from a local clone of this repository, CellQuant has the following requirements:
+* An installation of R is not required to run this program from the [prepackaged release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha).  If running from a local clone of this repository, CellQuant has the following requirements:
 
 * R 3.6.3 or higher
 
