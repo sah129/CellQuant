@@ -1,5 +1,3 @@
-# CellQuant
-
 ![CellQuant](assets/images/original/logo.png) 
 
 ## Overview
