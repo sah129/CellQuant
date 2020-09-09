@@ -1,4 +1,4 @@
-![CellQuant](assets/images/original/logo.png) 
+![CellQuant](assets/images/original/logo3.png) 
 
 ## Overview
 
