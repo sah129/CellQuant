@@ -1,4 +1,6 @@
 # CellQuant
+
+![CellQuant Opening Screen](assets/images/cq-open-screen.png) ![Auto-generated result graph](assets/images/qs-generate-graph.png)
 ## Overview
 
 CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to batch quantify plasma membrane and vacuolar fluorescence in yeast cells.  
