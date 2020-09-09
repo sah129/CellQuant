@@ -1,6 +1,6 @@
 # CellQuant
 
-![CellQuant Start Screen and Sample Graph](assets/images/original/side-by-side.png) 
+![CellQuant](assets/images/original/logo.png) 
 
 ## Overview
 
