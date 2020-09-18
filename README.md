@@ -13,28 +13,22 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 ## How to Run
 
-### Without R Installation
+1.  Install [Docker](https://www.docker.com/products/docker-desktop)
 
-The easiest way to run the CellQuant program is to download the zip file of the [latest release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha). This comes with an R-portable so no previous installation of R is required.  [Google Chrome Portable](https://portableapps.com/apps/internet/google_chrome_portable) is used for rendering.  
+2.  Make sure Docker is running and pull the cellquant image from Docker Hub
 
-### With R Installation
+`docker pull odonnelllab/cellquant`
 
-If you have R installed on your machine:  
+3.  Run the following command to create a container and run on port 3838.  The -v flag maps the container directories with the local file system.
 
-1.  Clone this repository locally
-2.  cd into the CellQuant directory
-3.  start R
-4.  run.R
+`docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home cellquant`
+
+CellQuant will be running on localhost:3838.
 
 ## Dependencies
+* Docker
 
-* Windows 7 or greater
-
-* An installation of R is not required to run this program from the [prepackaged release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha).  If running from a local clone of this repository, CellQuant has the following requirements:
-
-* R 3.6.3 or higher
-
-* Package dependences:  
+CellQuant was built with R 3.6.3 with the following package dependencies: 
 ```
 Bioconductor::EBImage
 stringr
@@ -47,4 +41,4 @@ tidyr
 
 ## Upcoming Features
 
-- [ ] Mac OS compatibility
+- [x] Mac OS compatibility
