@@ -48,13 +48,13 @@ The applet will be running on locahost:3838.
 
 CellQuant was built with R 3.6.3 with the following package dependencies: 
 ```
-    Bioconductor::EBImage
-    stringr
-    shiny
-    shinyFiles
-    shinyjs
-    shinythemes
-    tidyr
+   Bioconductor::EBImage
+   stringr
+   shiny
+   shinyFiles
+   shinyjs
+   shinythemes
+   tidyr
 ```
 
 ## Upcoming Features
