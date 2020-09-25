@@ -1,0 +1,107 @@
+---
+title: 'CellQuant Installation Instructions '
+author: "O'Donnell Lab"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+  html_document:
+    theme: united
+    toc: yes
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library("knitr")
+library("EBImage")
+```
+
+
+# Mac
+
+## Docker
+
+### Install Docker 
+
+Docker is a platform used to "containerize" programs so that they run identically across platforms with no individual configuration required on the user computer.  This means that you can run the program, which is written in R, without R installed on your computer.  Docker Desktop is a program that makes Docker extremely easy to use. To run CellQuant on Mac you will need to download Docker Desktop. The download is free and available [here](https://www.docker.com/products/docker-desktop).
+
+### Run Docker
+
+Once Docker Desktop is installed, it will be placed in the Applications folder.  Open it.  (Note: you do not need to set up an account with Docker but it may ask you do so.)  When you open Docker a whale icon will appear in the upper-right hand corner of your screen. You should see a yellow dot with the message "Docker Desktop is starting" at the top of the drop-down menu.  Wait until the dot changes to green with the message "Docker Desktop is running".  Whenever you want to run the program, Docker Desktop will need to be running.  
+
+```{r}
+display(readImage("docker-icon.png"))
+```
+
+## Installation
+
+You will need to "pull" (install) the CellQuant source code from the odonnelllab account on DockerHub. **This only needs to be done once**.  However, if a new version of the program is released you will need to pull the updated source code to download the latest version. 
+
+### Terminal
+
+Downloading and running the program is done by two simple commands executed in Terminal, which is a command-line interface present on all Macs by default.  You can find Terminal in your Applications folder, though it may not be visible.  If that is the case, search for "Terminal" in Finder with the filter **Kind >> is >> Application**, as any file containing code could theoretically be run by Terminal and might show up in the search results.  Alternatively, you can sort the results by "Kind" to achieve the same result.
+
+```{r}
+display(readImage("Terminal-find.png"))
+display(readImage("Terminal-search-2.png"))
+```
+
+### Pulling the Source Code
+
+Open Terminal and copy-paste the command 
+
+```{r, eval = FALSE, include =TRUE, echo = TRUE}
+docker pull odonnelllab/cellquant
+``` 
+
+into the Terminal window and press enter.  Your computer will then pull the source code and configuration from DockerHub.  This may take a few minutes.
+
+```{r}
+display(readImage("pull-command.png"))
+display(readImage("pull-successful.png"))
+```
+
+## Running
+
+Once CellQuant is pulled from DockerHub, any time you want to run the program simply open Terminal and copy-paste this command:  
+
+```{r, eval = FALSE, include =TRUE, echo = TRUE}
+docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/cellquant
+```
+
+into the Terminal window and press Enter.  This will create a local server on your computer and run the program on port 3838.
+
+```{r}
+display(readImage("running.png"))
+```
+
+Ignore the warnings shown above if they appear. Open your browser of choice and type 
+```{r, eval = FALSE, include =TRUE, echo = TRUE}
+localhost:3838
+```
+
+in the address bar.  The program will be running in your browser window. 
+
+```{r}
+display(readImage("safari.png"))
+```
+
+# Windows
+
+The instructions above will work for Windows computers as well.  However, Docker Desktop is not available for all versions of Windows.  If Docker Desktop is not compatible with your version of Windows, there is a zip file of the program available on my GitHub [here](https://github.com/sah129/CellQuant/releases).  Go to the latest release available.  The **CellQuantApp.zip** file will be in the "assets" drop-down menu.
+
+```{r}
+display(readImage("github-zip.png"))
+```
+
+Click the link to download.
+
+**Note**:  The zip file is large as it contains a local version of R.  I strongly recommend using Docker Desktop over the zip file download as the configuration is standardized and independent of the individual computer.  The zip file download may cause issues depending on the individual computer that will not be present when using Docker.
+
+
+# Additional Info
+
+A video tutorial discussing the different settings of the pipeline is available here.  Always check the [CellQuant GitHub page](https:://github.com/sah129/cellquant) for the latest information.
+
+
