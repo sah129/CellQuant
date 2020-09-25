@@ -27,6 +27,17 @@ CellQuant will be running on localhost:3838.
 
 A detailed installation tutorial is available [here](Tutorial/CellQuant-Installation-Instructions.pdf).
 
+## Membrane Algorithm Demonstration & Configuration Settings
+
+[PMDetectionDemo](https://github.com/sah129/PMDetectionDemo) is a visual tool to help users configure the CellQuant automated pipeline. The applet demonstrates all possible membrane detection algorithms at all possible settings.  Installation instructions and source code can be found on the [GitHub repository](https://github.com/sah129/PMDetectionDemo) but the Docker commands repeated below:
+
+Install:  `docker pull odonnelllab/pm-detection-demo`
+
+Run:  `docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/pm-detection-demo`
+
+The applet will be running on locahost:3838.
+
+
 ## Dependencies
 * Docker
 
