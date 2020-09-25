@@ -39,7 +39,7 @@ The applet will be running on locahost:3838.
 
 ## Grouping and Sorting
 
-[QuantSort](https://github.com/sah129/QuantSort) is an applet designed to help sort, group, and graph the output of CellQuant.  It can be found online at https://odonnelllab.shinyapps.io/QuantSort/  or downloaded as part of the CellQuant [bundled release](https://github.com/sah129/CellQuant/releases/tag/v0.8-alpha).
+[QuantSort](https://github.com/sah129/QuantSort) is an applet designed to help sort, group, and graph the output of CellQuant.  It can be found online at https://odonnelllab.shinyapps.io/QuantSort/  or downloaded as part of the CellQuant [bundled release](https://github.com/sah129/CellQuant/releases/tag/v0.9-alpha).
 
 
 
