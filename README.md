@@ -25,6 +25,8 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 CellQuant will be running on localhost:3838.
 
+A detailed installation tutorial is available [here](Tutorial/CellQuant-Installation-Instructions.pdf).
+
 ## Dependencies
 * Docker
 
