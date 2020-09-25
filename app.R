@@ -23,7 +23,7 @@ ui <- fluidPage( theme = shinytheme("slate"),
                          column(2, br(), actionButton("inputchannels_help", "?"))),
                      fluidRow(
                          column(1, strong("4.")),
-                         column(9, textInput("cutoff_value", "Cell size cutoff", placeholder="100")),
+                         column(9, textInput("cutoff_value", "Cell size cutoff", value = "", placeholder="100")),
                          column(2, br(), actionButton("cutoffvalue_help", "?"))),
                      fluidRow(
                          column(1, strong("5.")),
@@ -44,7 +44,7 @@ server <-
     {
         
         values <- reactiveValues()
-        volumes = c(home = getwd(), root = getVolumes()())
+        volumes = c("Home (~)" = "/srv/shiny-server/home", root = getVolumes()())
         
         
         shinyDirChoose(input, 'input_dir', roots= volumes, session = session)
@@ -134,6 +134,10 @@ server <-
                          {
                              showModal(modalDialog(title="Invalid Input", "Different channels cannot have the same value", easyClose = TRUE, footer = NULL))
                          }
+                        else if( str_trim(input$cutoff_value) == "" )
+                        {
+                         showModal(modalDialog(title = "Invalid Input", "Must enter a value for the cutoff.", easyClose = TRUE, footer = NULL))
+                        }
                          else
                          {
                              progress <- shiny::Progress$new()
