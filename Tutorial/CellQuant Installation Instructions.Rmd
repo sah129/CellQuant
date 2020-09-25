@@ -1,6 +1,6 @@
 ---
 title: 'CellQuant Installation Instructions '
-author: "O'Donnell Lab"
+author: "Sarah Hawbaker"
 output:
   pdf_document:
     toc: yes
