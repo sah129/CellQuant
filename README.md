@@ -17,13 +17,13 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 2.  Make sure Docker is running and pull the cellquant image from Docker Hub.  **You only need to do this once!**
 
-`docker pull odonnelllab/cellquant`
+    `docker pull odonnelllab/cellquant`
 
 3.  Run the following command to create a container and run on port 3838.  The -v flag maps the container directories with the local file system.
 
-`docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/cellquant`
+    `docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/cellquant`
 
-CellQuant will be running on localhost:3838.
+    CellQuant will be running on localhost:3838.
 
 A detailed installation tutorial is available [here](Tutorial/CellQuant-Installation-Instructions.pdf).
 
@@ -37,19 +37,26 @@ Run:  `docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/
 
 The applet will be running on locahost:3838.
 
+## Grouping and Sorting
+
+[QuantSort](https://github.com/sah129/QuantSort) is an applet designed to help sort, group, and graph the output of CellQuant.  It can be found online at https://odonnelllab.shinyapps.io/QuantSort/  or downloaded as part of the CellQuant [bundled release](https://github.com/sah129/CellQuant/releases/).
+
+
 
 ## Dependencies
 * Docker
 
+## Packages
+
 CellQuant was built with R 3.6.3 with the following package dependencies: 
 ```
-Bioconductor::EBImage
-stringr
-shiny
-shinyFiles
-shinyjs
-shinythemes
-tidyr
+   Bioconductor::EBImage
+   stringr
+   shiny
+   shinyFiles
+   shinyjs
+   shinythemes
+   tidyr
 ```
 
 ## Upcoming Features
