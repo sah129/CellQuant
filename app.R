@@ -80,7 +80,7 @@ server <-
         observeEvent(input$inputchannels_help, {
             showModal(modalDialog(
                 title = "Input Channels",
-                "Frame numbers for the different channels of the .tif file.  If there is no DIC channel, leave the field blank.",
+                "Frame numbers for the different channels of the .tif file.  If there is no DIC channel, leave the field blank. Images with more than 5 channels are not supported.",
                 easyClose = TRUE,
                 footer = NULL
             ))
@@ -118,15 +118,15 @@ server <-
                              print('null')
                              return(NULL)
                          }
-                         else if( !(str_trim(input$cmac_chan) %in% c("1", "2", "3")))
+                         else if( !(str_trim(input$cmac_chan) %in% c("1", "2", "3", "4", "5")))
                          {
                              showModal(modalDialog(title = "Invalid Input", "Invalid value for CMAC channel.", easyClose = TRUE, footer = NULL))
                          }
-                         else if( !(str_trim(input$gfp_chan) %in% c("1", "2", "3")))
+                         else if( !(str_trim(input$gfp_chan) %in% c("1", "2", "3", "4", "5")))
                          {
                              showModal(modalDialog(title = "Invalid Input", "Invalid value for GFP channel.", easyClose = TRUE, footer = NULL))
                          }
-                         else if( !(str_trim(input$dic_chan) %in% c("1", "2", "3", "")))
+                         else if( !(str_trim(input$dic_chan) %in% c("1", "2", "3", "4", "5", "")))
                          {
                              showModal(modalDialog(title = "Invalid Input", "Invalid value for DIC channel.", easyClose = TRUE, footer = NULL))
                          }
