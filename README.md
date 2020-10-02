@@ -15,7 +15,7 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 1.  Install [Docker](https://www.docker.com/products/docker-desktop)
 
-2.  Make sure Docker is running and pull the cellquant image from Docker Hub.  **You only need to do this once.**
+2.  Make sure Docker is running and pull the cellquant image from Docker Hub.  **You only need to do this once to install the program.**  Running this command will also install the latest version of the program, if a newer version is available. 
 
     `docker pull odonnelllab/cellquant`
 
