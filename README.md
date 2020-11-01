@@ -21,7 +21,10 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 3.  Run the following command to create a container and run on port 3838.  The -v flag maps the container directories with the local file system.
 
-    `docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/cellquant`
+    **Mac**:          `docker run --rm -p 3838:3838 -v $HOME:/srv/shiny-server/home odonnelllab/cellquant`
+    
+    **Windows**:     `docker run --rm -p 3838:3838 -v /$HOME:/srv/shiny-server/home odonnelllab/cellquant`
+
 
     CellQuant will be running on localhost:3838.
 
