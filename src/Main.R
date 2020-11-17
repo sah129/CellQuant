@@ -1,11 +1,16 @@
 
 # Main Driver function.  
 # datasetpath: path to dataset, see io.R for file/directory structure
-# testing: If set set to true, a precomputed .rds file is loaded and
-# returned.
 # gui:  set to true when using the GUI.  See app.R.
 # progress:  holds information for progress updates when using the GUI.
 # interactive:  set to manually prune results in GUI
+# factor:  brightness multiplicative factor for membrane channel
+# gfp_chan:  frame of GFP channel
+# cmac_chan:  frame of CMAC channel
+# dic_chan:  frame of DIC channel
+# alg: membrane detection algorithm
+# cutoff:  cell size cutoff
+# outpath:  path to write images and .csv files to
 pipeline <- function(datasetpath, gui, progress, factor, gfp_chan, cmac_chan, dic_chan, alg, cutoff, outpath)
 {
   cnum = list(
