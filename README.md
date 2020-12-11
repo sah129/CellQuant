@@ -30,7 +30,7 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 A detailed installation tutorial is available [here](https://sah129.github.io/pdfs/CellQuant-Installation-Instructions.pdf).
 
-A video on running the program and configuring the settings is available [here](https://vimeo.com/452732282).
+A video on running the program and configuring the settings is available [here](https://vimeo.com/452732282).  (This video uses the downloadable .zip file, not Docker.  Using Docker to download and run CellQuant is recommended.)
 
 ## Membrane Algorithm Demonstration & Configuration Settings
 
