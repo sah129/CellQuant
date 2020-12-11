@@ -30,6 +30,8 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 A detailed installation tutorial is available [here](https://sah129.github.io/pdfs/CellQuant-Installation-Instructions.pdf).
 
+A video on running the program and configuring the settings is available [here](https://vimeo.com/manage/452732282/general).
+
 ## Membrane Algorithm Demonstration & Configuration Settings
 
 [PMDetectionDemo](https://github.com/sah129/PMDetectionDemo) is a visual tool to help users configure the CellQuant automated pipeline. The applet demonstrates all possible membrane detection algorithms at all possible settings.  Installation instructions and source code can be found on the [GitHub repository](https://github.com/sah129/PMDetectionDemo) but the Docker commands repeated below:
