@@ -30,7 +30,7 @@ CellQuant was created for the O'Donnell Lab at the University of Pittsburgh to q
 
 A detailed installation tutorial is available [here](https://sah129.github.io/pdfs/CellQuant-Installation-Instructions.pdf).
 
-Video Tutorial on preparing input for CellQuant is available [here](https://vimeo.com/user120131457).  **Note: This video uses the downloadable CellQuantApp.zip file to install and run the program.  It is highly recommended to use Docker instead.**.  That said, the instructions for preparing input and adjusting settings remain the same.
+Video Tutorial on preparing input for CellQuant is available [here](https://vimeo.com/user120131457).  **Note: This video uses the downloadable CellQuantApp.zip file to install and run the program.  It is highly recommended to use Docker instead.**  That said, the instructions for preparing the input and adjusting settings remain the same.
 
 ## Membrane Algorithm Demonstration & Configuration Settings
 
